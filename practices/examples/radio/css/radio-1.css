@@ -17,3 +17,7 @@
 [role=radio].focus {
    border-color: black;
 }
+#codeex{
+   background-color: #F1F1F1 ;
+   padding:10px;
+}
