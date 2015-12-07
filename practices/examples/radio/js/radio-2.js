@@ -9,16 +9,18 @@ var KEYCODE = {
 window.addEventListener('load', function() {
 
   var radiobuttons = document.querySelectorAll('[role=radio]');
+  var radiogroup = document.querySelectorAll('[role=radiogroup]');
 
   for(var i = 0; i < radiobuttons.length; i++ ) {
     var rb = radiobuttons[i];
-
-    console.log(rb.tagName + " " + rb.id)
-
     rb.addEventListener('click', clickRadioGroup);
-    rb.addEventListener('keydown', keyDownRadioGroup);
-    rb.addEventListener('focus', focusRadioButton);
-    rb.addEventListener('blur', blurRadioButton);
+  }
+
+  for(var i = 0; i < radiogroup.length; i++){
+    var rg = radiogroup[i];
+    rg.addEventListener('keydown', keyDownRadioGroup);
+    rg.addEventListener('focus', focusRadioButton);
+    rg.addEventListener('blur', blurRadioButton);
   }
 
 });
@@ -146,15 +148,15 @@ function setRadioButton(node, state) {
   var image = getImage(node);
 
   if (state == 'true') {
-    node.setAttribute('aria-checked', 'true')
+    node.setAttribute('aria-checked', 'true');
+    node.parentNode.setAttribute('aria-activedescendant', node.getAttribute('Id'));
     image.src = './images/radio-checked.png';
-    node.tabIndex = 0;
-    node.focus()
+    node.focus();
   }
   else {
     node.setAttribute('aria-checked', 'false')
     image.src = './images/radio-unchecked.png';   
-    node.tabIndex = -1;
+    node.className = node.className.replace(' focus','');
   }  
 }
 
@@ -173,7 +175,7 @@ function clickRadioGroup(event) {
     // If either enter or space is pressed, execute the funtion
 
     var node = event.currentTarget;
-
+        
     var radioButton = firstRadioButton(node);
 
     while (radioButton) {
@@ -202,6 +204,8 @@ function keyDownRadioGroup(event) {
   
   if(type === "keydown"){
     var node = event.currentTarget;
+    var activedescendant = node.getAttribute('aria-activedescendant');
+    node = document.getElementById(activedescendant);
   
     switch (event.keyCode) {
       case KEYCODE.DOWN:
@@ -217,7 +221,7 @@ function keyDownRadioGroup(event) {
         break;
         
       case KEYCODE.SPACE:
-        next = node;
+        next = document.getElementById(activedescendant);
         break;
     }
     
@@ -246,7 +250,7 @@ function keyDownRadioGroup(event) {
 */
 
 function focusRadioButton(event) {
-  event.currentTarget.className += ' focus';
+  event.className = event.className += ' focus';
 }
 
 /*
@@ -258,5 +262,5 @@ function focusRadioButton(event) {
 */
 
 function blurRadioButton(event) {
-  event.currentTarget.className = event.currentTarget.className.replace(' focus','');
+  event.className = event.replace(' focus','');
 }
