@@ -151,7 +151,7 @@ function setRadioButton(node, state) {
     node.setAttribute('aria-checked', 'true');
     node.parentNode.setAttribute('aria-activedescendant', node.getAttribute('Id'));
     image.src = './images/radio-checked.png';
-    node.focus();
+    node.className += ' focus';
   }
   else {
     node.setAttribute('aria-checked', 'false')
@@ -250,7 +250,8 @@ function keyDownRadioGroup(event) {
 */
 
 function focusRadioButton(event) {
-  event.className = event.className += ' focus';
+  activedescendant = event.currentTarget.getAttribute('aria-activedescendant');
+  document.getElementById(activedescendant).className += ' focus';
 }
 
 /*
@@ -259,8 +260,9 @@ function focusRadioButton(event) {
 * @desc Adds focus styling to the label element encapsulating standard radio button
 *
 * @param   {Object}  event  -  Standard W3C event object
-*/
+*/    
 
 function blurRadioButton(event) {
-  event.className = event.replace(' focus','');
+  activedescendant = event.currentTarget.getAttribute('aria-activedescendant');
+  document.getElementById(activedescendant).className = document.getElementById(activedescendant).className.replace(' focus','');
 }

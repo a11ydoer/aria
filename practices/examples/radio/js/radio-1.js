@@ -258,5 +258,5 @@ function focusRadioButton(event) {
 */
 
 function blurRadioButton(event) {
-  event.currentTarget.className = event.currentTarget.className.replace(' focus','');
+   event.currentTarget.className = event.currentTarget.className.replace(' focus','');
 }
